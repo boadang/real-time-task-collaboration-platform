@@ -1,0 +1,31 @@
+services:
+  # Container chạy Database
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: task_platform_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: task_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Container chạy Giao diện quản lý DB
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: task_platform_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres_db
+
+# ĐÂY LÀ PHẦN CÒN THIẾU CỦA BẠN:
+volumes:
+  postgres_data:
